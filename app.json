@@ -1,0 +1,56 @@
+{
+  "expo": {
+    "name": "Masjid",
+    "slug": "masjid-native",
+    "version": "1.0.1",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "masjid",
+    "userInterfaceStyle": "dark",
+    "android": {
+      "package": "dev.onik.masjid",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#0a0a0a"
+      },
+      "permissions": ["android.permission.USE_EXACT_ALARM"]
+    },
+    "ios": {
+      "bundleIdentifier": "dev.onik.masjid"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#0a0a0a"
+        }
+      ],
+      "expo-status-bar",
+      "expo-sqlite",
+      "expo-notifications",
+      "./plugins/with-gradle-memory",
+      "expo-background-task"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://xprem.nexul.io/manifest",
+      "requestHeaders": {
+        "expo-channel-name": "production",
+        "expo-app-id": "751deee2-72a5-4734-8b10-c460fa251bcd"
+      },
+      "codeSigningCertificate": "./certs/certificate.pem",
+      "codeSigningMetadata": {
+        "keyid": "main",
+        "alg": "rsa-v1_5-sha256"
+      }
+    }
+  }
+}

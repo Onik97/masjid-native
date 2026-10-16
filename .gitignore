@@ -1,0 +1,11 @@
+node_modules/
+.expo/
+dist/
+android/
+ios/
+*.apk
+*.aab
+.re/
+.scratch/
+expo-env.d.ts
+.env.local
