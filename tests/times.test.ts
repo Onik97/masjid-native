@@ -86,3 +86,8 @@ test('countdown aims at the athan while it is ahead and shown, then the iqamah',
     seconds: 0,
   });
 });
+
+test('a reminder already counting down stays planned until its iqamah, so a reschedule can still end it', () => {
+  const plan = reminderPlan('Suleymaniye', days, ['isha'], 15, new Date('2026-10-16T20:05:00+01:00'));
+  expect(new Date(plan[0].iqamah).toISOString()).toBe('2026-10-16T19:15:00.000Z');
+});

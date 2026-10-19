@@ -1,0 +1,14 @@
+plugins {
+  id 'com.android.library'
+  id 'expo-module-gradle-plugin'
+}
+
+version = '1.0.0'
+
+android {
+  namespace "expo.modules.iqamahcountdown"
+}
+
+dependencies {
+  implementation 'androidx.core:core:1.17.0'
+}

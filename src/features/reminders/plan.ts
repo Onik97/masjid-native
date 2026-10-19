@@ -1,10 +1,11 @@
 import type { Day } from '@/features/masjidbox/api';
 import { clock, localDate, slots, type Prayer } from '@/features/prayers/times';
 
-export type Reminder = { at: number; title: string; body: string };
+/** `body` shows while counting down to `iqamah`, `nowBody` once it is reached. */
+export type Reminder = { at: number; iqamah: number; title: string; body: string; nowBody: string };
 
 /**
- * Every reminder still ahead of `now` today and tomorrow: `minutesBefore` each chosen iqamah. Only
+ * Every reminder whose iqamah is still ahead of `now` today and tomorrow: `minutesBefore` each chosen iqamah. Only
  * two days, so a mosque changing its timetable is picked up by the next reschedule (on open or in
  * the background) instead of firing at old times for weeks.
  */
@@ -23,9 +24,12 @@ export function reminderPlan(
         .filter((s) => prayers.includes(s.prayer))
         .map((s) => ({
           at: Date.parse(s.iqamah) - minutesBefore * 60_000,
+          iqamah: Date.parse(s.iqamah),
           title: `${s.label} iqamah ${clock(s.iqamah)} · ${mosqueName}`,
-          body: minutesBefore ? `Starts in ${minutesBefore} minutes` : 'Starting now',
+          body: minutesBefore ? 'Starting soon' : 'Starting now',
+          nowBody: 'Starting now',
         }))
-        .filter((r) => r.at > now.getTime()),
+        // Kept until the iqamah, not the reminder, so a reschedule mid-countdown still ends it at zero.
+        .filter((r) => r.iqamah > now.getTime()),
     );
 }
