@@ -69,3 +69,9 @@ from the `index.ts` entry so it runs with no screen mounted) refetches the times
 few hours, so a mosque changing its timetable reaches the alarms without the app being
 opened. Android fixes a notification channel's sound once created: changing how
 reminders sound means a new channel id.
+
+On Android each reminder is one notification with a live countdown to the
+iqamah, drawn by the system with no app code running. A second alarm at the
+iqamah swaps it to "Starting now", where it stays until dismissed. That part is
+native (`modules/iqamah-countdown`, an Expo local module), so changing it needs a
+new APK. Elsewhere reminders fall back to plain `expo-notifications`.

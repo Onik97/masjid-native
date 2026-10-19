@@ -1,3 +1,4 @@
+import { requireOptionalNativeModule } from 'expo';
 import * as Notifications from 'expo-notifications';
 import type { Reminder } from './plan';
 
@@ -33,17 +34,26 @@ export async function allowNotifications(): Promise<boolean> {
   return (await Notifications.requestPermissionsAsync()).granted;
 }
 
+// Android: shows each reminder as a live countdown to the iqamah (modules/iqamah-countdown).
+const countdown = requireOptionalNativeModule<{ replace(reminders: Reminder[]): void }>('IqamahCountdown');
+
 let queue = Promise.resolve();
 
 // Replaces every alarm on each call: at most ten (five prayers, today and tomorrow).
 /** Replaces all scheduled reminders. Calls run one at a time so overlapping updates can't interleave. */
 export function replaceReminders(reminders: Reminder[]) {
   queue = queue.then(async () => {
+    // Also clears reminders that builds before the countdown scheduled here.
     await Notifications.cancelAllScheduledNotificationsAsync();
-    if (!reminders.length || !(await Notifications.getPermissionsAsync()).granted) return;
+    const allowed = reminders.length > 0 && (await Notifications.getPermissionsAsync()).granted;
     // Phones that scheduled reminders before the silent channel existed move over here.
-    await ensureChannel();
-    for (const r of reminders) {
+    if (allowed) await ensureChannel();
+    if (countdown) {
+      countdown.replace(allowed ? reminders : []);
+      return;
+    }
+    if (!allowed) return;
+    for (const r of reminders.filter((r) => r.at > Date.now())) {
       await Notifications.scheduleNotificationAsync({
         content: { title: r.title, body: r.body },
         trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: r.at, channelId: CHANNEL },
