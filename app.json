@@ -2,7 +2,7 @@
   "expo": {
     "name": "Masjid",
     "slug": "masjid-native",
-    "version": "1.0.2",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "masjid",
@@ -13,7 +13,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#0a0a0a"
       },
-      "permissions": ["android.permission.USE_EXACT_ALARM"]
+      "permissions": ["android.permission.USE_EXACT_ALARM"],
+      "blockedPermissions": ["android.permission.ACCESS_FINE_LOCATION"]
     },
     "ios": {
       "bundleIdentifier": "dev.onik.masjid"
@@ -32,7 +33,14 @@
       "expo-sqlite",
       "expo-notifications",
       "./plugins/with-gradle-memory",
-      "expo-background-task"
+      "expo-background-task",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Shows the mosques near you."
+        }
+      ],
+      "@maplibre/maplibre-react-native"
     ],
     "experiments": {
       "typedRoutes": true

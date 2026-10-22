@@ -13,11 +13,12 @@ first, nothing Android-only, so iOS can follow.
 ## Code layout
 
 ```
-src/app/                 routes only (expo-router): index, add (search/paste), settings
+src/app/                 routes only (expo-router): index, add (search/paste), nearby (map), settings
 src/features/masjidbox/  API client: Zod schemas, timetable fetch, link → mosque resolution
 src/features/prayers/    pure prayer-time logic, the timetable query, home screen components
 src/features/mosques/    the followed-mosques store (Zustand, persisted)
 src/features/reminders/  reminder plan (pure), settings store, Android alarm scheduling
+src/features/nearby/     mosques around the phone (OpenStreetMap) matched to Masjid Box
 src/lib/                 query client + persister, on-device storage, small hooks
 src/components/platform/ native Android controls (@expo/ui Compose) with cross-platform fallbacks
 src/components/ui/       React Native Reusables components
@@ -75,3 +76,12 @@ iqamah, drawn by the system with no app code running. A second alarm at the
 iqamah swaps it to "Starting now", where it stays until dismissed. That part is
 native (`modules/iqamah-countdown`, an Expo local module), so changing it needs a
 new APK. Elsewhere reminders fall back to plain `expo-notifications`.
+
+## Mosques near you
+
+Add → "Mosques near you" asks for approximate location (precise location is
+blocked in `app.json`), looks up mosques within 3 km on OpenStreetMap, and shows
+them on a map (MapLibre, OpenFreeMap tiles, no key) and as a list. Tapping one
+searches Masjid Box by its name and offers it only when the address agrees
+(`src/features/nearby/match.ts`). Lookups are cached on the phone for a week per
+~1 km area. See `docs/specs/mosques-near-me.md` for the limits.

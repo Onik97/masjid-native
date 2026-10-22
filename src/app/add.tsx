@@ -12,7 +12,7 @@ import { useScheme } from '@/features/settings/store';
 import { THEME } from '@/lib/theme';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { router, Stack } from 'expo-router';
-import { LinkIcon, SearchIcon } from 'lucide-react-native';
+import { LinkIcon, MapPinIcon, SearchIcon, type LucideIcon } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { FlatList, Pressable, View } from 'react-native';
 
@@ -85,9 +85,17 @@ export default function Add() {
         contentInsetAdjustmentBehavior="automatic"
         ListHeaderComponent={
           <>
+            {!text.trim() && (
+              <Row
+                icon={MapPinIcon}
+                title="Mosques near you"
+                subtitle="Find them on a map"
+                onPress={() => router.push('/nearby')}
+              />
+            )}
             {link && (
               <Row
-                icon
+                icon={LinkIcon}
                 title={adding.isPending ? 'Finding the timetable…' : `Add from ${text.trim()}`}
                 subtitle="Looks for Masjid Box on that page"
                 onPress={() => adding.mutate({ link: text.trim() })}
@@ -144,7 +152,7 @@ function Row({
   title: string;
   subtitle: string;
   trailing?: string;
-  icon?: boolean;
+  icon?: LucideIcon;
   disabled?: boolean;
   onPress: () => void;
 }) {
@@ -154,7 +162,7 @@ function Row({
       disabled={disabled}
       android_ripple={{}}
       className="min-h-16 flex-row items-center gap-4 px-5 py-3">
-      {icon && <Icon as={LinkIcon} className="text-muted-foreground size-5" />}
+      {icon && <Icon as={icon} className="text-muted-foreground size-5" />}
       <View className="flex-1">
         <Text
           numberOfLines={1}
