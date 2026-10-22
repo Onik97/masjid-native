@@ -18,6 +18,16 @@ Read this before adding UI, so new screens pick from the same few options.
   early), Remind me for (the five prayers). Every row shows its title with the current
   value underneath; a value row opens a bottom sheet of radio rows, a switch row toggles
   on a tap anywhere in the row. No dropdown fields, no chevrons.
+- Near you (`nearby`): pushed from the first row of Add ("Mosques near you"). The map fills
+  the top half; below it, a `bg-background` panel with a `rounded-t-3xl` top edge overlaps
+  the map and lists the mosques nearest first under one centred title ("Mosques nearby ·
+  28"). Rows: an orange pin in a tinted disc, the name (up to two lines) with street and
+  postcode under it, and the distance on the right at the same size as the name. No
+  dividers inside the panel. Map pins are plain orange dots with a white ring; the phone is
+  a blue dot. Tapping a pin or row enlarges its pin and opens a Material bottom sheet: the
+  name, what Masjid Box has for it, and one filled orange button (Add mosque, or Add with
+  their website link). Map tiles follow the theme (dark / positron); the map credit sits
+  top right because the panel covers the bottom edge.
 - System back works everywhere; there are no custom close buttons.
 
 ## Controls: native first

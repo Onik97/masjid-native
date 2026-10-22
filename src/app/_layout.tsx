@@ -37,6 +37,7 @@ export default function RootLayout() {
             <Stack.Screen name="index" />
             <Stack.Screen name="add" options={{ title: 'Add mosque' }} />
             <Stack.Screen name="settings" options={{ title: 'Settings' }} />
+            <Stack.Screen name="nearby" options={{ title: 'Near you' }} />
           </Stack>
           <ReminderSync />
           <PortalHost />

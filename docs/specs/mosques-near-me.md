@@ -33,9 +33,12 @@ ships as a new APK (version 1.1.0), not over the air:
 
 Data: Overpass API query
 `nwr(around:3000,lat,lng)["amenity"="place_of_worship"]["religion"="muslim"]`,
-with a second public Overpass server as fallback. It can take ~30 s, so the
-result is cached in the persisted TanStack Query cache, keyed by the position
-rounded to ~1 km, for 7 days.
+sent to three public Overpass servers at once, first answer wins (they are often
+slow or down; one answered in ~15 s while the others timed out). The result is
+cached in the persisted TanStack Query cache, keyed by the position rounded to
+~1 km, for 7 days. A Masjid Box match is checked against the OSM location: same
+postcode, else the result's postcode (located with postcodes.io, free, no key) is
+within 400 m, else, with no postcode in the address, the same street.
 
 ## Project structure
 
@@ -44,7 +47,7 @@ src/app/nearby.tsx               route: map, pins, selected-mosque sheet
 src/features/nearby/overpass.ts  Overpass query + Zod schema → { id, name, lat, lng, postcode?, street? }
 src/features/nearby/match.ts     pure: pick the Masjid Box search result whose address agrees
 src/features/nearby/queries.ts   TanStack Query options for position, nearby list, match
-tests/match.test.ts              matching rules against real responses from the research
+tests/nearby.test.ts             parser and matching rules against real responses from the research
 ```
 
 ## Code style

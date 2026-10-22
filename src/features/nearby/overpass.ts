@@ -45,14 +45,16 @@ export function parseOverpass(json: unknown): NearbyMosque[] {
 }
 
 const SERVERS = [
+  'https://maps.mail.ru/osm/tools/overpass/api/interpreter',
   'https://overpass-api.de/api/interpreter',
   'https://overpass.private.coffee/api/interpreter',
 ];
 const TIMEOUT_MS = 75_000;
 
-async function query(server: string, body: string) {
+async function query(server: string, body: string, done: AbortSignal) {
   const abort = new AbortController();
   const timer = setTimeout(() => abort.abort(), TIMEOUT_MS);
+  done.addEventListener('abort', () => abort.abort());
   try {
     const res = await fetch(server, {
       method: 'POST',
@@ -71,16 +73,17 @@ async function query(server: string, body: string) {
   }
 }
 
-/** Mosques within `radius` metres of the point, from OpenStreetMap. Tries a second server if the first fails. */
+/** Mosques within `radius` metres of the point, from OpenStreetMap. */
 export async function fetchNearbyMosques(lat: number, lng: number, radius = 3000) {
   const ql = `[out:json][timeout:60];nwr(around:${radius},${lat},${lng})["amenity"="place_of_worship"]["religion"="muslim"];out center tags;`;
   const body = `data=${encodeURIComponent(ql)}`;
-  for (const server of SERVERS) {
-    try {
-      return await query(server, body);
-    } catch {
-      // fall through to the next server
-    }
+  const done = new AbortController();
+  try {
+    // Public servers are often slow or down, so all are asked at once and the first answer wins.
+    return await Promise.any(SERVERS.map((server) => query(server, body, done.signal)));
+  } catch {
+    throw new Error("Couldn't load nearby mosques right now. Check your connection and try again.");
+  } finally {
+    done.abort();
   }
-  throw new Error("Couldn't load nearby mosques right now. Check your connection and try again.");
 }
