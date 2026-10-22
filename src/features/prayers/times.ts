@@ -25,9 +25,10 @@ export function dayOn(days: Day[], date: string): Day | undefined {
   return days.find((d) => d.date.slice(0, 10) === date);
 }
 
-/** HH:mm as printed on the mosque's timetable. */
+/** h:mm am/pm from the mosque's timetable, sliced rather than parsed so the device's timezone never shifts it. */
 export function clock(iso: string): string {
-  return iso.slice(11, 16);
+  const hour = Number(iso.slice(11, 13));
+  return `${hour % 12 || 12}:${iso.slice(14, 16)} ${hour < 12 ? 'am' : 'pm'}`;
 }
 
 /** The day's five congregations; on Fridays dhuhr becomes Jumuah. */
