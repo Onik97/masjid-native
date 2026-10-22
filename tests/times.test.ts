@@ -2,6 +2,7 @@
 import { expect, test } from 'bun:test';
 import { DaySchema } from '../src/features/masjidbox/api';
 import {
+  clock,
   countdown,
   focus,
   formatCountdown,
@@ -58,8 +59,8 @@ test('reminders fire before each chosen iqamah, skipping ones already past', () 
     new Date('2026-10-16T14:00:00+01:00'),
   );
   expect(plan.map((r) => [new Date(r.at).toISOString(), r.title])).toEqual([
-    ['2026-10-16T19:00:00.000Z', 'Isha iqamah 20:15 · Suleymaniye'],
-    ['2026-10-17T12:15:00.000Z', 'Dhuhr iqamah 13:30 · Suleymaniye'],
+    ['2026-10-16T19:00:00.000Z', 'Isha iqamah 8:15 pm · Suleymaniye'],
+    ['2026-10-17T12:15:00.000Z', 'Dhuhr iqamah 1:30 pm · Suleymaniye'],
     [expect.any(String), expect.stringContaining('Isha')],
   ]);
 });
@@ -68,6 +69,12 @@ test('reminders cover today and tomorrow only, so a changed timetable is never m
   // The fixture holds the 16th and 17th; planned on the 15th, the 16th is tomorrow and the 17th too far.
   const plan = reminderPlan('Suleymaniye', days, ['isha'], 15, new Date('2026-10-15T12:00:00+01:00'));
   expect(plan.map((r) => new Date(r.at).toISOString())).toEqual(['2026-10-16T19:00:00.000Z']);
+});
+
+test('clock prints 12-hour times, with 12 (not 0) just past midnight and noon', () => {
+  expect(clock('2026-10-16T00:05:00+01:00')).toBe('12:05 am');
+  expect(clock('2026-10-16T12:30:00+01:00')).toBe('12:30 pm');
+  expect(clock('2026-10-16T06:15:00+01:00')).toBe('6:15 am');
 });
 
 test('countdown aims at the athan while it is ahead and shown, then the iqamah', () => {
