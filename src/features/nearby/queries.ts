@@ -20,11 +20,10 @@ export function usePosition(): Position {
       if (!(await Location.requestForegroundPermissionsAsync()).granted) return set({ status: 'denied' });
       const fix =
         (await Location.getLastKnownPositionAsync({ maxAge: 10 * 60_000 })) ??
-        (await Location.getCurrentPositionAsync({
-          accuracy: Location.Accuracy.Balanced,
-          // Approximate is enough; no prompt to switch on Google's Location Accuracy.
-          mayShowUserSettingsDialog: false,
-        }).catch(() => Location.getLastKnownPositionAsync()));
+        // Android may ask to switch on Location Accuracy here; approximate location needs it.
+        (await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced }).catch(() =>
+          Location.getLastKnownPositionAsync(),
+        ));
       if (!fix) return set({ status: 'failed' });
       const at = { lat: fix.coords.latitude, lng: fix.coords.longitude };
       // The lookup goes by the ~1 km square the phone is in, so nearby visits share one cached result.
