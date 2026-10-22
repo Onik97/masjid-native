@@ -1,0 +1,176 @@
+{
+  "overpass": {
+    "elements": [
+      {
+        "type": "way",
+        "id": 58702154,
+        "center": {
+          "lat": 51.5582227,
+          "lon": -0.0547024
+        },
+        "tags": {
+          "addr:postcode": "E5 9QD",
+          "addr:street": "Lea Bridge Road",
+          "name": "Madina Masjid"
+        }
+      },
+      {
+        "type": "way",
+        "id": 84820247,
+        "center": {
+          "lat": 51.5510022,
+          "lon": -0.0740297
+        },
+        "tags": {
+          "addr:street": "Shacklewell Lane",
+          "name": "Shacklewell Lane Mosque"
+        }
+      },
+      {
+        "type": "way",
+        "id": 224884567,
+        "center": {
+          "lat": 51.5245585,
+          "lon": -0.0747866
+        },
+        "tags": {
+          "addr:postcode": "E2 7DJ",
+          "addr:street": "Redchurch Street",
+          "name": "Shoreditch Masjid Trust"
+        }
+      },
+      {
+        "type": "way",
+        "id": 305035308,
+        "center": {
+          "lat": 51.5353015,
+          "lon": -0.0764441
+        },
+        "tags": {
+          "name": "Suleymaniye Mosque"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2404125477,
+        "lat": 51.5113771,
+        "lon": -0.0436751,
+        "tags": {
+          "addr:postcode": "E1W 3HB",
+          "addr:street": "Cable Street"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5931064082,
+        "lat": 51.5294969,
+        "lon": -0.0836774,
+        "tags": {
+          "addr:postcode": "N1 6BT",
+          "addr:street": "Pitfield Street",
+          "name": "Hoxton Islah"
+        }
+      }
+    ]
+  },
+  "search": {
+    "hoxton": [
+      {
+        "name": "Hoxton Islah Ltd",
+        "address": "71 Pitfield St, London N1 6BS, UK",
+        "slug": "hoxton-islah",
+        "open": true
+      },
+      {
+        "name": "Al Islah",
+        "address": "Ampsenseweg 8, 7241 NB Lochem, Netherlands",
+        "slug": "alislah",
+        "open": true
+      },
+      {
+        "name": "Mosquée Islah",
+        "address": "130 Chemin de la Madrague-Ville, 13015 Marseille, France",
+        "slug": "islah",
+        "open": true
+      }
+    ],
+    "suleymaniye": [
+      {
+        "name": "Suleymaniye.org",
+        "address": "212-216 Kingsland Road, London E2 8AX, UK",
+        "slug": "suleymaniyemosque",
+        "open": false
+      },
+      {
+        "name": "United American Muslim Association",
+        "address": "459 Deer Park Avenue, Dix Hills, NY, USA",
+        "slug": "suleymaniye-mosque-1737157056340",
+        "open": true
+      },
+      {
+        "name": "Xhamija Bair",
+        "address": "Bair Mosque, Mitrovica",
+        "slug": "xhamija-bair",
+        "open": false
+      }
+    ],
+    "madina": [
+      {
+        "name": "Jama Masjid AS Safa",
+        "address": "Madina Colony, Rajouri",
+        "slug": "jama-masjid-as-safa",
+        "open": true
+      },
+      {
+        "name": "Al madina masjid worcester",
+        "address": "Al-Madina Jami Masjid, Worcester, UK",
+        "slug": "al-madina-masjid-worcester",
+        "open": true
+      },
+      {
+        "name": "Madina Masjid",
+        "address": "225 High Street North, London, UK",
+        "slug": "madina-masjid",
+        "open": true
+      }
+    ],
+    "shoreditchTrust": [
+      {
+        "name": "Shahporan Masjid",
+        "address": "Shahporan Masjid & Islamic Centre Trust, Hackney Road, London, UK",
+        "slug": "shahporan",
+        "open": true
+      },
+      {
+        "name": "Masjidulhuda",
+        "address": "Masjid Al Huda, Hajiyarpadi, Trikkalangode, Kerala",
+        "slug": "masjidussunna-1742305096710",
+        "open": false
+      },
+      {
+        "name": "Touheed educational trust",
+        "address": "Masjid E Touheed, Dooravani Nagar, Bengaluru, Karnataka, India",
+        "slug": "touheed-educational-trust",
+        "open": true
+      }
+    ],
+    "shoreditch": [
+      {
+        "name": "Shoreditch Masjid and Islamic Centre",
+        "address": "53-55 Redchurch Street, London, UK",
+        "slug": "shoreditch-masjid-and-islamic-centre",
+        "open": true
+      }
+    ]
+  },
+  "postcodes": {
+    "N1 6BS": {
+      "lat": 51.529567,
+      "lng": -0.083739
+    },
+    "E2 8AX": {
+      "lat": 51.535647,
+      "lng": -0.076677
+    }
+  }
+}
