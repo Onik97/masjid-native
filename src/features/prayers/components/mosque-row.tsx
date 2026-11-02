@@ -50,7 +50,7 @@ export function MosqueRow({ name, day, prayer, now, showAthan, target, status, o
           {name}
         </Text>
         <Text selectable className="text-muted-foreground mt-0.5 text-sm tabular-nums">
-          {showAthan ? `Athan ${clock(s.athan)} · Iqamah ${clock(s.iqamah)}` : `Iqamah ${clock(s.iqamah)}`}
+          {showAthan ? `Athan ${clock(s.athan)}\nIqamah ${clock(s.iqamah)}` : `Iqamah ${clock(s.iqamah)}`}
         </Text>
       </View>
       {moment ? (
