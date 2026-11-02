@@ -9,6 +9,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.os.SystemClock
+import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import org.json.JSONArray
@@ -76,9 +78,18 @@ object Countdowns {
       // The swap to "now" updates the notification in place without buzzing again.
       .setOnlyAlertOnce(true)
       .setWhen(countdown.iqamah)
-      .setShowWhen(true)
-    // Android ticks the countdown itself; past zero it would run negative, hence the NOW alarm.
-    if (!reached) builder.setUsesChronometer(true).setChronometerCountDown(true)
+      .setShowWhen(reached)
+    if (!reached) {
+      // The body itself ticks: a header chronometer is tiny, and some launchers (Samsung) hide it.
+      // Past zero it would run negative, hence the NOW alarm.
+      val base = SystemClock.elapsedRealtime() + (countdown.iqamah - System.currentTimeMillis())
+      val view = RemoteViews(context.packageName, R.layout.iqamah_countdown).apply {
+        setTextViewText(R.id.title, countdown.title)
+        setChronometer(R.id.countdown, base, "Starts in %s", true)
+        setChronometerCountDown(R.id.countdown, true)
+      }
+      builder.setStyle(NotificationCompat.DecoratedCustomViewStyle()).setCustomContentView(view)
+    }
     manager.notify(countdown.notificationId, builder.build())
   }
 
