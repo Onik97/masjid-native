@@ -39,7 +39,7 @@ object Countdowns {
   const val SHOW = "expo.modules.iqamahcountdown.SHOW"
   const val NOW = "expo.modules.iqamahcountdown.NOW"
   // Created from JS (src/features/reminders/notifications.ts), which owns the channel's settings.
-  private const val CHANNEL = "iqamah-silent"
+  private const val CHANNEL = "iqamah-buzz"
   private const val PREFS = "iqamah-countdown"
 
   /** Cancels the previous alarms and arms these; saved so a reboot can re-arm them. */
