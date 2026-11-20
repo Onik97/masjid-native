@@ -10,6 +10,13 @@ Times come straight from the Masjid Box API
 refresh when the app comes back to the foreground. Expo + React Native; Android
 first, nothing Android-only, so iOS can follow.
 
+## Install
+
+Android: add `https://github.com/Onik97/masjid-native` in
+[Obtainium](https://github.com/ImranR98/Obtainium). It installs the APK from the
+latest release and offers each new one. Or download the APK from
+[Releases](https://github.com/Onik97/masjid-native/releases) and open it.
+
 ## Code layout
 
 ```
