@@ -2,10 +2,10 @@ import { requireOptionalNativeModule } from 'expo';
 import * as Notifications from 'expo-notifications';
 import type { Reminder } from './plan';
 
-// Android fixes a channel's sound once it exists, so going silent needed a new channel id; the
-// old, noisy one is deleted.
-const CHANNEL = 'iqamah-silent';
-const OLD_CHANNEL = 'iqamah';
+// Android fixes a channel's sound and vibration once it exists, so each change needs a new
+// channel id; the old ones are deleted.
+const CHANNEL = 'iqamah-buzz';
+const OLD_CHANNELS = ['iqamah', 'iqamah-silent'];
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -16,14 +16,15 @@ Notifications.setNotificationHandler({
   }),
 });
 
-/** Reminders pop up and vibrate but make no sound. */
+/** Reminders pop up and buzz once but make no sound. */
 async function ensureChannel() {
-  await Notifications.deleteNotificationChannelAsync(OLD_CHANNEL);
+  for (const id of OLD_CHANNELS) await Notifications.deleteNotificationChannelAsync(id);
   await Notifications.setNotificationChannelAsync(CHANNEL, {
     name: 'Iqamah reminders',
     importance: Notifications.AndroidImportance.HIGH,
     sound: null,
     enableVibrate: true,
+    vibrationPattern: [0, 250],
   });
 }
 
@@ -46,7 +47,7 @@ export function replaceReminders(reminders: Reminder[]) {
     // Also clears reminders that builds before the countdown scheduled here.
     await Notifications.cancelAllScheduledNotificationsAsync();
     const allowed = reminders.length > 0 && (await Notifications.getPermissionsAsync()).granted;
-    // Phones that scheduled reminders before the silent channel existed move over here.
+    // Phones that scheduled reminders on an older channel move over here.
     if (allowed) await ensureChannel();
     if (countdown) {
       countdown.replace(allowed ? reminders : []);
